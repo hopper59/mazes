@@ -30,7 +30,7 @@ class Cell
 
     #sees if cell is linked to another cell
     def linked?(cell)
-        @linke.key?(cell)
+        @links.key?(cell)
     end
 
     def neighbrs
