@@ -1,3 +1,5 @@
+require 'distances'
+
 class Cell
 
     attr_reader :row, :column
@@ -39,6 +41,27 @@ class Cell
         list << south if south
         list << east if east
         list << west if west
+    end
+
+    def distances
+        distances = Distances.new(self)
+        frontier = [self]
+
+        while frontier.any?
+            new_frontier = []
+
+            frontier.each do |cell|
+                cell.links.each do |linked|
+                    next if distances[linked]
+                    distances[linked] = distances[cell] + 1
+                    new_frontier << linked
+                end
+            end
+
+            frontier = new_frontier
+        end
+
+        distances
     end
 
 end
