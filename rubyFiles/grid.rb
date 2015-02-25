@@ -129,7 +129,7 @@ class Grid
         img
     end
 
-    def backgroud_color_for(cell)
+    def background_color_for(cell)
         nil
     end
 

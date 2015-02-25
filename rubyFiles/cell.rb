@@ -35,12 +35,13 @@ class Cell
         @links.key?(cell)
     end
 
-    def neighbrs
+    def neighbors
         list = []
         list << north if north
         list << south if south
         list << east if east
         list << west if west
+        list
     end
 
     def distances
