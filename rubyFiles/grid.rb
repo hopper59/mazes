@@ -107,19 +107,30 @@ class Grid
 
         img = ChunkyPNG::Image.new(img_width + 7, img_height + 7, background)
 
-        each_cell do |cell|
-            x1 = cell.column * cell_size +3
-            y1 = cell.row * cell_size +3
-            x2 = (cell.column + 1) * cell_size +3
-            y2 = (cell.row + 1) * cell_size +3
+        [:backgrounds, :walls].each do |mode|
+            each_cell do |cell|
+                x1 = cell.column * cell_size +3
+                y1 = cell.row * cell_size +3
+                x2 = (cell.column + 1) * cell_size +3
+                y2 = (cell.row + 1) * cell_size +3
 
-            img.line(x1, y1, x2, y1, wall) unless cell.north
-            img.line(x1, y1, x1, y2, wall) unless cell.west
-            img.line(x2, y1, x2, y2, wall) unless cell.linked?(cell.east)
-            img.line(x1, y2, x2, y2, wall) unless cell.linked?(cell.south)
+                if mode == :backgrounds
+                    color = background_color_for(cell)
+                    img.rect(x1, y1, x2, y2, color, color) if color
+                else
+                    img.line(x1, y1, x2, y1, wall) unless cell.north
+                    img.line(x1, y1, x1, y2, wall) unless cell.west
+                    img.line(x2, y1, x2, y2, wall) unless cell.linked?(cell.east)
+                    img.line(x1, y2, x2, y2, wall) unless cell.linked?(cell.south)
+                end
+            end
         end
 
         img
+    end
+
+    def backgroud_color_for(cell)
+        nil
     end
 
 end
