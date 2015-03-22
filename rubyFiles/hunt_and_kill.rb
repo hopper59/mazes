@@ -21,6 +21,7 @@ class HuntAndKill
 
                        neighbor = visited_neighbors.sample
                        current.link(neighbor)
+                       break
                    end 
                 end
             end
