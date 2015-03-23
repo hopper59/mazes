@@ -13,7 +13,7 @@ class PolarGrid < Grid
         row_height = 1.0 / @rows
         rows[0] = [PolarCell.new(0,0)]
 
-        (1..@rows).each do |row|
+        (1..@rows-1).each do |row|
             radius = row.to_f / @rows
             circumfrence = 2 * Math::PI * radius
 
@@ -44,6 +44,11 @@ class PolarGrid < Grid
         end
     end
 
+    def [](row,column)
+        return nil unless row.between?(0, @rows -1)
+        @grid[row][column % @grid[row].count]
+    end
+
     def randon_cell
         row = rand(@rows)
         col = rand(@grid[row].length)
@@ -51,8 +56,7 @@ class PolarGrid < Grid
     end
 
     def to_png(cell_size=10)
-        realRows = @rows+1
-        img_size = 2 * realRows * cell_size
+        img_size = 2 * @rows* cell_size
 
         background = ChunkyPNG::Color::WHITE
         wall = ChunkyPNG::Color::BLACK
@@ -82,7 +86,7 @@ class PolarGrid < Grid
             img.line(ax, ay, cx, cy, wall) unless cell.linked?(cell.inward)
             img.line(cx, cy, dx, dy, wall) unless cell.linked?(cell.cw)
         end
-        img.circle(center, center, realRows*cell_size, wall)
+        img.circle(center, center, @rows*cell_size, wall)
         
         img
     end
