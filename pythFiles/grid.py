@@ -1,4 +1,5 @@
 from cell import Cell
+import Image, ImageDraw
 
 class Grid:
 
@@ -84,4 +85,30 @@ class Grid:
                 botRow.append(corner)
             endRow.append(''.join(topRow)+"\n"+''.join(botRow)+"\n")
         return output+''.join(endRow)
+
+    def to_png(self,cell_size=10):
+        img_width = cell_size*self.columns
+        img_height = cell_size*self.rows
+
+        background = 'white'
+        wall = 'black'
+
+        img = Image.new('RGB', (img_height+7, img_width+7), background)
+        drawImg = ImageDraw.Draw(img)
+        for cell in self.each_cell:
+            x1 = cell.column*cell_size+3
+            y1 = cell.row*cell_size+3
+            x2 = (cell.column+1)*cell_size+3
+            y2 = (cell.row+1)*cell_size+3
+
+            if cell.north is None:
+                drawImg.line( [x1, y1, x2, y1], wall)
+            if cell.west is None:
+                drawImg.line( [x1, y1, x1, y2], wall)
+            if cell.is_linked(cell.east) == False:
+                drawImg.line( [x2, y1, x2, y2], wall)
+            if cell.is_linked(cell.south) == False:
+                drawImg.line( [x1, y2, x2, y2], wall)
+        return img
+
 
