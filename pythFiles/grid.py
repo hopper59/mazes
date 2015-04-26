@@ -58,6 +58,9 @@ class Grid:
                 for lst in self.grid
                 for element in lst] 
 
+    def contents_of(self, cell):
+        return "   "
+
     def __str__(self):
         output = "+" + "---+" * self.columns + "\n"
         top = "|"
@@ -70,7 +73,11 @@ class Grid:
             topRow.append(top)
             botRow.append(corner)
             for cell in row:
-                body = "   " 
+                body = self.contents_of(cell)
+                if len(body) == 1:
+                    body = " "+body+" "
+                elif len(body) == 2:
+                    body = " "+body
                 topRow.append(body)
                 if cell.is_linked(cell.east):
                     east_boundary = " "
