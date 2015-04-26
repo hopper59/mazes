@@ -1,7 +1,7 @@
 from cell import Cell
 import Image, ImageDraw
 
-class Grid:
+class Grid(object):
 
     def __init__(self, rows, columns):
         self.rows = rows

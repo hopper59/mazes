@@ -10,3 +10,9 @@ distances = start.distances()
 grid.distances = distances
 
 print grid
+
+print 'path from northwest corner to southwest corner'
+
+grid.distances = distances.path_to(grid[grid.rows-1,0])
+print grid
+
